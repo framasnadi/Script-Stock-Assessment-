@@ -1,4 +1,0 @@
- caccccaa
- 
- library(aaa
-         )
