@@ -1,0 +1,62 @@
+####################
+#   Grafici LFD    #
+####################
+library(readr)
+library(dplyr)
+library(ggplot2)
+setwd("C:/Users/f.masnadi/Desktop/Stock Assessment/SS3/Corso Ponza 2019/SOLE/dati/File_catture/file estratti da R") # mettere la cartella della specie 
+
+############################################
+# grafici per dati annuali di Landing
+plot_LFD_year <- read_csv("plot_LFD_year.csv")
+#View(plot_LFD_year)
+data<-plot_LFD_year 
+head(data)
+unique(data$Attrezzo)
+# grafico accorpato LFD per fleet per anno (sovrapposte)
+# ricordarsi di cambiare il ggtitle con la specie giusta!
+ggplot(data, aes(classe_lun,Numero_espanso,color=factor(Anno)))+geom_line(size=1.1)+ggtitle("SOL LFD")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Years")+ facet_wrap(as.factor(data$Attrezzo),scales = "free")
+# grafico LFD per anno per attrezzo
+ggplot(data, aes(classe_lun,Numero_espanso,color=factor(Attrezzo))) +ggtitle("SOL LFD") + facet_wrap(data$Anno)+geom_line(size=1.1)+xlab("CL (cm)")+ylab("thousands")+ scale_colour_discrete(name  ="Attrezzo")
+
+
+############################################
+# grafici per dati semestrali di Landing
+plot_LFD_quarter <- read_csv("plot_LFD_quarter.csv")
+data2<-plot_LFD_quarter 
+head(data2)
+unique(data2$Attrezzo)
+unique(data2$Trimestre)
+# LFD per quarter per Anno
+# ricordarsi di cambiare il ggtitle con la specie giusta!
+# GNS
+ggplot(data2[data2$Attrezzo=="Reti da Posta",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL GNS")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Reti da Posta",]$Anno),scales = "free")
+# OTB
+ggplot(data2[data2$Attrezzo=="Strascico",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL OTB")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Strascico",]$Anno),scales = "free")
+# TBB
+ggplot(data2[data2$Attrezzo== "Rapido" ,], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL TBB")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Rapido",]$Anno),scales = "free")
+# GTR
+ggplot(data2[data2$Attrezzo=="Tremaglio",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL GTR")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Tremaglio",]$Anno),scales = "free")
+# FPO
+ggplot(data2[data2$Attrezzo=="Nasse",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL FPO")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Nasse",]$Anno),scales = "free")
+# PTF
+ggplot(data2[data2$Attrezzo=="Volante",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL PTF")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Volante",]$Anno),scales = "free")
+# OTHER
+ggplot(data2[data2$Attrezzo=="Other",], aes(classe_lun,Numero_espanso,color=factor(Trimestre)))+geom_line(size=1.1)+ggtitle("SOL Other")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Quarter")+ facet_wrap(as.factor(data2[data2$Attrezzo=="Other",]$Anno),scales = "free")
+# LFD per quarter per Attrezzo (indipendentemente dagli anni)
+data2$Attrezzo<-ifelse(grepl("Reti da Posta", data2$Attrezzo), "Reti_da_Posta", data2$Attrezzo)
+ggplot(data2, aes(classe_lun,Numero_espanso,color=factor(Attrezzo))) +ggtitle("SOL by Quarter") +
+ facet_wrap(data2$Trimestre)+geom_line(size=1.1)+xlab("CL (cm)")+ylab("thousands")+ scale_colour_discrete(name  ="Attrezzo")
+
+############################################
+# grafici per dati annuali di Discard
+plot_LFD_discard_year <- read_csv("plot_LFD_discard_year.csv")
+#View(plot_LFD_year)
+data3<-plot_LFD_discard_year 
+head(data3)
+unique(data3$Attrezzo)
+# grafico accorpato LFD per fleet per anno (sovrapposte)
+# ricordarsi di cambiare il ggtitle con la specie giusta!
+ggplot(data3, aes(classe_lun,Numero_espanso,color=factor(Anno)))+geom_line(size=1.1)+ggtitle("SOL Discard LFD")+xlab("CL (cm)") +ylab("thousands")+ scale_colour_discrete(name  ="Years")+ facet_wrap(as.factor(data3$Attrezzo),scales = "free")
+# grafico LFD per anno per attrezzo
+ggplot(data3, aes(classe_lun,Numero_espanso,color=factor(Attrezzo))) +ggtitle("SOL Discard LFD") + facet_wrap(data3$Anno)+geom_line(size=1.1)+xlab("CL (cm)")+ylab("thousands")+ scale_colour_discrete(name  ="Attrezzo")
